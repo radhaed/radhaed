@@ -323,6 +323,24 @@
         btn.innerText = "Status: Skeptical. Drink water anyway.";
       }
     }
+ async function syncLiveStatus() {
+  try {
+    const res = await fetch('https://api.isyour.mom/status');
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    document.getElementById('statusTitle').innerText = data.title;
+    document.getElementById('statusDesc').innerText = data.sub;
+    document.getElementById('dinnerState').innerText = data.dinner;
+    
+    const dot = document.getElementById('stateDot');
+    dot.style.background = data.dot;
+    dot.style.boxShadow = `0 0 8px ${data.dot}55`;
+  } catch (err) {
+    console.log('Using local fallback state');
+  }
+}
+syncLiveStatus();
   </script>
 </body>
 </html>
